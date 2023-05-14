@@ -1,0 +1,316 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.transfer-container {
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: fit-content;
+  width: 350px;
+  border-radius: 5px;
+  padding: 30px;
+  border: 1px solid black;
+}
+
+.title {
+  background-color: transparent;
+  margin-bottom: 0px;
+}
+.description {
+  text-align: center;
+  margin-bottom: 0px;
+}
+
+
+
+
+
+.file-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 350px;
+}
+
+label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  color: #fff;
+  cursor: pointer;
+  height: 150px;
+  width: 100%;
+  border: black 2px dotted;
+  margin-top: 5px;
+  border-radius: 5px;
+}
+
+#file-input {
+  display: none;
+}
+
+.upload-icon {
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+.upload-text {
+  font-size: 16px;
+  text-align: center;
+  color: black;
+}
+
+.text-inputs {
+  width: 340px;
+  font-size: 16px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.google {
+  height: 50px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.transfer {
+  margin-top: 15px;
+  height: 50px;
+  width: 100%;
+  cursor: pointer;
+  background-color: #2375EF;
+  outline: none;
+  border: 0;
+  color: white;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #2375EF;
+}
+
+.transfer:hover {
+  color: #2375EF;
+  background-color: white;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 7px;
+}
+
+.file-logo {
+  height: 45px;
+}
+
+
+.toggle-option {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  margin-bottom: 10px;
+  gap: 1px;
+  margin-top: 20px;
+}
+
+
+.upload {
+  width: 50%;
+  height: 50px;
+  outline: none;
+  cursor: pointer;
+  border-radius: 5px 0px 0px 5px;
+  border: 1px solid #2375EF;
+  background-color: #2375EF;
+  color: white;
+  font-size: 16px;
+}
+.upload:hover {
+  background-color: white;
+  color: #2375EF;
+  border: 1px solid #2375EF;
+}
+
+.download {
+  width: 50%;
+  height: 50px;
+  outline: none;
+  cursor: pointer;
+  border-radius: 0px 5px 5px 0px;
+  border: 1px solid #2375EF;
+  background-color: #2375EF;
+  color: white;
+  font-size: 16px;
+}
+.download:hover {
+  background-color: white;
+  color: #2375EF;
+  border: 1px solid #2375EF;
+}
+
+
+
+
+.upload-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 350px;
+}
+
+.download-box {
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 350px;
+}
+
+
+
+.download-input {
+  width: 90%;
+  outline: none;
+  background-color: white;
+  border: 2px dotted black;
+  font-size: 16px;
+  padding: 5%;
+  border-radius: 5px;
+}
+
+
+.upload-button {
+  margin-top: 15px;
+  height: 50px;
+  width: 100%;
+  cursor: pointer;
+  background-color: #2375EF;
+  outline: none;
+  border: 0;
+  color: white;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #2375EF;
+}
+
+.upload-button:hover {
+  color: #2375EF;
+  background-color: white;
+}
+
+.download-button {
+  margin-top: 15px;
+  height: 50px;
+  width: 100%;
+  cursor: pointer;
+  background-color: #2375EF;
+  outline: none;
+  border: 0;
+  color: white;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #2375EF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.download-button:hover {
+  color: #2375EF;
+  background-color: white;
+}
+
+
+
+.spinner_gif {
+  height: 16px;
+}
+.spinner-container {
+  margin-top: 15px;
+  height: 50px;
+  width: 350px;
+  cursor: pointer;
+  background-color: #2375EF;
+  outline: none;
+  border: 0;
+  color: white;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #2375EF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+.spinner-text {
+  font-size: 16px;
+  margin-right: 7px;
+}
+
+
+.download-link {
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+
+}
+
+.download-link-a {
+  color: #2375EF;
+  font-size: 16px;
+  text-decoration: none;
+  width: 290px;
+  overflow-wrap: break-word;
+}
+.success-text {
+  margin-right: 5px;
+  color: green;
+  font-size: 16px;
+}
+.success-text1 {
+  margin-right: 5px;
+  color: green;
+  font-size: 16px;
+  margin-bottom: 0;
+}
+
+.error-text {
+  color: red;
+  font-size: 16px;
+  margin-bottom: 0;
+  margin-top: 10px;
+}
+
+.tx-id-text {
+
+}
+
+.message-input {
+  width: 90%;
+  outline: none;
+  background-color: white;
+  border: 2px dotted black;
+  font-size: 16px;
+  padding: 5%;
+  border-radius: 5px;
+  margin-top: 16px;
+}
