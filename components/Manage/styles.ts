@@ -26,6 +26,40 @@ export const Container = styled.div`
   margin-top: 4.5em; 
 `;
 
+
+
+export const IntroSection = styled.div`
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+  color: #333;
+  line-height: 1.5;
+  margin-top: 20vh;
+
+  h2 {
+    font-size: 2em;
+    margin-bottom: 1em;
+  }
+
+  p {
+    font-size: 1.2em;
+    margin-bottom: 2em;
+  }
+
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+`;
+export const GetDataButton = styled(Button)`
+`;
+
+
+
+
+
 export const UserHeader = styled.div`
   display: flex;
   justify-content: space-around;
@@ -33,8 +67,9 @@ export const UserHeader = styled.div`
   width: 100%;
   padding: 20px;
   margin-bottom: 20px;
-  background: yellow;
-  border-radius: 10px;
+  border-radius: 8px;
+  background: rgb(242, 242, 242);
+  border: 1px solid rgb(211, 227, 252);
 
   img {
     border-radius: 50%;
@@ -50,39 +85,6 @@ export const UserHeader = styled.div`
 `;
 
 
-export const Table = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 50px;
-
-  thead {
-    background-color: #2375EF;
-    color: white;
-  }
-
-  th, td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
-
-  tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
-
-  .blue-link {
-  color: #2375EF;
-  text-decoration: underline;
-  }
-
-`;
-
-
-export const GetDataButton = styled(Button)`
-  margin-top: 4em; 
-`;
-
-
 
 export const DataContainer = styled.div`
   display: flex;
@@ -91,8 +93,9 @@ export const DataContainer = styled.div`
   width: 100%;
   padding: 20px;
   margin-bottom: 20px;
-  background: white;
-  border-radius: 10px;
+  border-radius: 8px;
+  background: rgb(242, 242, 242);
+  border: 1px solid rgb(211, 227, 252);
 `;
 export const ChartHeader = styled.h2`
   font-size: 24px;
@@ -117,9 +120,72 @@ export const PieChartContainer = styled.div`
 export const AnalyticsContainer = styled.div`
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
   flex-direction: column;
   height: 200px;
+
+  .top {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .bottom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-left: 25px;
+    margin-right: 25px;
+  }
+
+  b {
+    color: #2375EF;
+    font-size: 2em;
+  }
+
+  span {
+    font-size: 1em;
+  }
+
+`;
+
+
+
+
+export const Table = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 50px;
+  border-radius: 8px;
+  background: rgb(242, 242, 242);
+  border: 1px solid rgb(211, 227, 252);
+
+  thead {
+    background-color: #2375EF;
+    color: white;
+  }
+
+  th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  .blue-link {
+  color: #2375EF;
+  text-decoration: underline;
+  }
+
 `;
 

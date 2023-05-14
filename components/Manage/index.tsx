@@ -68,9 +68,8 @@ const SDKDemo = () => {
         {
           data,
           backgroundColor: [
-            '#ff6384', // Color for the first type
-            '#36a2eb', // Color for the second type
-            // Add more colors for additional types
+            '#2375EF',
+            '#7BACF5',
           ],
         },
       ],
@@ -143,17 +142,44 @@ const SDKDemo = () => {
             </Styled.LineGraphContainer>
 
             <Styled.AnalyticsContainer>
-              Lorimer
-              <Styled.ChartHeader>Over Time</Styled.ChartHeader>
+              <div className='top'>
+                <b>1,324</b>
+                <span>Users</span>
+              </div>
+              <div className='bottom'>
+                <div className='item'>
+                  <b>{100}</b>
+                  <span>Transactions</span>
+                </div>
+                <div className='item'>
+                  <b>{100}</b>
+                  <span>Users</span>
+                </div>
+                </div>
             </Styled.AnalyticsContainer>
 
             </Styled.DataContainer>
         )}
         
 
-        {!clientData && <Styled.GetDataButton onClick={() => getTransactions()}>
-          Get Data
-        </Styled.GetDataButton>}
+        {!clientData && (
+          <>
+            <Styled.IntroSection>
+              <h2>Manage your Othent account</h2>
+              <p>
+                Get a comprehensive view of transactions made within our network.
+                Here, you will be able to see an overview of transaction types, their trends over time, and a 
+                detailed table of all transactions. In order to protect user data, you need to login to view the
+                details.
+              </p>
+              <div>
+                <Styled.GetDataButton onClick={() => getTransactions()}>
+                  Business
+                </Styled.GetDataButton>
+              </div>
+            </Styled.IntroSection>
+          </>
+        )}
 
         {clientData && userDetails && 
           <Styled.Table>
