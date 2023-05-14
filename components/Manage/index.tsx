@@ -33,7 +33,7 @@ const SDKDemo = () => {
     setUserDetails(details);
     const { API_ID } = await othent.getAPIKeys();
     setAPI_ID(API_ID)
-    axios.post('http://server.othent.io/query-client-id', { clientID: API_ID })
+    axios.post('https://server.othent.io/query-client-id', { clientID: API_ID })
       .then((response) => {
         setClientData(response.data.document);
         setPieChartData(preparePieChartData(response.data.document.users));
