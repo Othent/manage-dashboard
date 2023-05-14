@@ -119,7 +119,7 @@ const Nav = () => {
           <div className='toggle'>
             <div></div>
           </div>
-          <p className={DMSans700.className}>Othent SDK Demo</p>
+          <p className={DMSans700.className}>Manage Othent</p>
         </a>
       </Styled.NavLogo>
   <Styled.Menu>

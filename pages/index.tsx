@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Footer from '../components/Footer';
-import SDKDemo from '../components/SDKDemo';
+import Manage from '../components/Manage';
 import {
   SectionOne,
 } from '../components/sharedstyles';
@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <SectionOne>
       <Head>
-        <title>Othent - Merging Web2 to Web3 user logins with a familiar and simple interface.</title>
+        <title>Manage Othent - Merging Web2 to Web3 user logins with a familiar and simple interface.</title>
         <link rel='icon' href='https://Othent.io/favicon.ico' />
         <meta property="og:title" content="Othent - Merging Web2 to Web3 user logins with a familiar and simple interface."/>
         <meta property='og:description' content='Othent - Merging Web2 to Web3 user logins with a familiar and simple interface.' />
@@ -31,7 +31,7 @@ export default function Home() {
         <meta property="og:site_name" content="Othent"></meta>
       </Head>
 
-      <SDKDemo />
+      <Manage />
 
       <Footer />
     </SectionOne>
