@@ -130,17 +130,24 @@ const SDKDemo = () => {
         }
 
         {pieChartData && lineChartData && (
-          <>
+          <Styled.DataContainer>
+
             <Styled.PieChartContainer>
-              <Styled.ChartHeader>Total Transactions</Styled.ChartHeader>
               {pieChartData && <Pie data={pieChartData} />}
+              <Styled.ChartHeader>By Accounts</Styled.ChartHeader>
             </Styled.PieChartContainer>
             
             <Styled.LineGraphContainer>
-              <Styled.ChartHeader>Total Transactions</Styled.ChartHeader>
               {lineChartData && <Line data={lineChartData} />}
+              <Styled.ChartHeader>Over Time</Styled.ChartHeader>
             </Styled.LineGraphContainer>
-            </>
+
+            <Styled.AnalyticsContainer>
+              Lorimer
+              <Styled.ChartHeader>Over Time</Styled.ChartHeader>
+            </Styled.AnalyticsContainer>
+
+            </Styled.DataContainer>
         )}
         
 

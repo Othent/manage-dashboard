@@ -91,18 +91,20 @@ export const DataContainer = styled.div`
   width: 100%;
   padding: 20px;
   margin-bottom: 20px;
-  background: red;
+  background: white;
   border-radius: 10px;
 `;
+export const ChartHeader = styled.h2`
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+`;
 export const LineGraphContainer = styled.div`
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding: 20px;
-  margin-bottom: 30px;
-  height: 250px;
+  height: 200px;
 `;
 export const PieChartContainer = styled.div`
   width: 100%;
@@ -110,13 +112,14 @@ export const PieChartContainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding: 20px;
-  margin-bottom: 30px;
-  height: 250px;
+  height: 150px;
+`;
+export const AnalyticsContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 200px;
 `;
 
-export const ChartHeader = styled.h2`
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 10px;
-`;
