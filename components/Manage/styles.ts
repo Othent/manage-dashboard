@@ -22,8 +22,8 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding: 20px; 
   margin-top: 4.5em; 
+  width: 90vw;
 `;
 
 
@@ -70,15 +70,15 @@ export const UserHeader = styled.div`
   border-radius: 8px;
   background: rgb(242, 242, 242);
   border: 1px solid rgb(211, 227, 252);
+  margin-top: 20px;
 
   img {
     border-radius: 50%;
   }
 
-  p {
+  span {
     margin: 0;
     word-break: break-all;
-    width: 150px;
   }
 
 
@@ -91,81 +91,128 @@ export const DataContainer = styled.div`
   justify-content: space-around;
   align-items: center;
   width: 100%;
-  padding: 20px;
   margin-bottom: 20px;
+  gap: 1rem;
+`;
+
+
+
+
+
+export const TopLeftContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+  width: 60%;
+  gap: 1rem;
+`;
+
+
+export const BigDataContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+`;
+export const BigDataContainer1 = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 25%;
   border-radius: 8px;
   background: rgb(242, 242, 242);
   border: 1px solid rgb(211, 227, 252);
+  padding: 1rem;
+  b {
+    font-size: 1.7rem;
+    color: #2375EF;
+  }
+  p {
+    font-size: 0.7rem;
+  }
+
 `;
-export const ChartHeader = styled.h2`
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 10px;
+
+
+
+export const PieChartsContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+`
+export const PieChartCardContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: rgb(242, 242, 242);
+  border: 1px solid rgb(211, 227, 252);
+  width: 25%;
+  padding: 0.5rem;
 `;
+export const PieChartCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+`;
+
+export const PieChart = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
+export const PieChartTitle = styled.p`
+  font-size: 0.7rem;
+  text-align: left;
+  width: 100%;
+`;
+
+
 export const LineGraphContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  height: 200px;
+  height: 100%;
+  width: 40%;
+  border-radius: 8px;
+  background: rgb(242, 242, 242);
+  border: 1px solid rgb(211, 227, 252);
+  padding: 1rem;
 `;
-export const PieChartContainer = styled.div`
+export const ChartHeader = styled.p`
+  font-size: 0.8rem;
+  text-align: left;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  height: 150px;
 `;
-export const AnalyticsContainer = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  flex-direction: column;
-  height: 200px;
 
-  .top {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  }
-  .bottom {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .item {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin-left: 25px;
-    margin-right: 25px;
-  }
 
-  b {
-    color: #2375EF;
-    font-size: 2em;
-  }
 
-  span {
-    font-size: 1em;
-  }
-
-`;
 
 
 
 
 export const Table = styled.table`
   width: 100%;
+  max-width: 100%;
   border-collapse: collapse;
   margin-bottom: 50px;
   border-radius: 8px;
   background: rgb(242, 242, 242);
   border: 1px solid rgb(211, 227, 252);
+  font-size: 10px;
+
+  .entry:hover {
+    background-color: #dddddd;
+  }
 
   thead {
     background-color: #2375EF;
@@ -183,9 +230,7 @@ export const Table = styled.table`
   }
 
   .blue-link {
-  color: #2375EF;
-  text-decoration: underline;
+    color: #2375EF;
+    text-decoration: underline;
   }
-
 `;
-
