@@ -79,7 +79,7 @@ const SDKDemo = () => {
     setTransactions(null); 
     const details = await othent.logIn();
     setUserDetails(details);
-    const { API_ID } = await othent.getAPIKeys();
+    const { API_ID } = await othent.getAPIID();
     setAPI_ID(API_ID)
     axios.post('https://server.othent.io/query-client-id', { clientID: API_ID })
       .then((response) => {
@@ -265,7 +265,7 @@ const SDKDemo = () => {
 
         <>
           <Styled.UserHeader>
-            <img src={userDetails.picture} alt="User Profile" />
+            <img src={userDetails.picture} referrerPolicy='no-referrer' alt="user profile" />
             <span>
               <b>Name:</b>
               <p>{userDetails.name}</p>
@@ -404,6 +404,7 @@ const SDKDemo = () => {
                 <th>Transaction ID</th>
                 <th>Transaction Function</th>
                 <th>Transaction Type</th>
+                <th>Success</th>
                 <th>Date</th>
               </tr>
             </thead>
@@ -440,6 +441,7 @@ const SDKDemo = () => {
                     </td>
                     <td>{transaction.txnFunction}</td>
                     <td>{transaction.type}</td>
+                    <td>{JSON.stringify(transaction.success)}</td>
                     <td>{new Date(transaction.date * 1000).toLocaleDateString()}</td>
                   </tr>
                 );
