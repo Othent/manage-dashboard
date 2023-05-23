@@ -7,8 +7,8 @@ import { Pie } from 'react-chartjs-2';
 import { Chart, CategoryScale, LinearScale, LineElement, PointElement, ArcElement, BarController, PolarAreaController, ScatterController, DoughnutController } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import moment from 'moment';
-
 Chart.register(CategoryScale, LinearScale, LineElement, PointElement, ArcElement, BarController, PolarAreaController, ScatterController, DoughnutController);
+
 
 
 const SDKDemo = () => {
@@ -18,7 +18,7 @@ const SDKDemo = () => {
   const [othent, setOthent] = useState(null);
   useEffect(() => {
     const initializeOthent = async () => {
-      const othentInstance = await Othent({ API_ID: '1f73e23e3437dd623f5530e90ac1d1b2' });
+      const othentInstance = await Othent({ API_ID: 'd7a29242f7fdede654171a0d3fd25163' });
       setOthent(othentInstance);
     };
     initializeOthent();
@@ -240,21 +240,9 @@ const SDKDemo = () => {
         {!transactions && (
           <>
             <Styled.IntroSection>
-              <h2>Manage your Othent account</h2>
-              <p>
-                Get a comprehensive view of transactions made within our network.
-                Here, you will be able to see an overview of transaction types, their trends over time, and a 
-                detailed table of all transactions. In order to protect user data, you need to login to view the
-                details.
-              </p>
-              <div>
                 <Styled.GetDataButton onClick={() => getTransactions()}>
-                  Your App
+                  Log In
                 </Styled.GetDataButton>
-                <Styled.GetDataButton onClick={() => getTransactions()}>
-                  Your Account
-                </Styled.GetDataButton>
-              </div>
             </Styled.IntroSection>
           </>
         )}
@@ -414,7 +402,16 @@ const SDKDemo = () => {
                 return (
                   <tr key={index} className='entry'>
                     <td>{reversedIndex}</td>
-                    <td>{transaction.walletAddress}</td>
+                    <td>
+                      <a
+                          className="blue-link"
+                          href={'https://sonar.warp.cc/#/app/contract/' + transaction.walletAddress}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                        {transaction.walletAddress}
+                      </a>
+                    </td>
                     <td>{transaction.userID}</td>
                     <td>
                       <a
@@ -422,12 +419,12 @@ const SDKDemo = () => {
                         href={
                           (() => {
                             switch (transaction.type) {
-                              case 'arweave':
-                                return `https://viewblock.io/transaction/${transaction.ID}`;
-                              case 'warp':
-                                return `https://sonar.warp.cc/contract/#/${transaction.ID}`;
-                              case 'bundlr':
-                                return `https://viewblock.io/transaction/${transaction.ID}`;
+                              case 'arweave-upload':
+                                return `https://viewblock.io/arweave/tx/${transaction.ID}`;
+                              case 'warp-transaction':
+                                return `https://sonar.warp.cc/#/app/interaction/${transaction.ID}`;
+                              case 'backup-account':
+                                return `https://sonar.warp.cc/#/app/interaction/${transaction.ID}`;
                               default:
                                 return '';
                             }
@@ -442,7 +439,10 @@ const SDKDemo = () => {
                     <td>{transaction.txnFunction}</td>
                     <td>{transaction.type}</td>
                     <td>{JSON.stringify(transaction.success)}</td>
-                    <td>{new Date(transaction.date * 1000).toLocaleDateString()}</td>
+                    <td>
+                      {new Date(transaction.date).toLocaleDateString(undefined)}{' '}
+                      {new Date(transaction.date).toLocaleTimeString(undefined, { timeStyle: 'medium' })}
+                    </td>
                   </tr>
                 );
               })}
