@@ -96,6 +96,11 @@ export const Menu = styled.nav`
       opacity: .8;
     }
   }
+
+  @media screen and (max-width: 720px) {
+    width: 100%;
+    justify-content: space-between;
+  }
 `;
 
 
@@ -165,14 +170,12 @@ export const BlurredBody = styled.div`
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(5px);
   z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
-
 export const Popup = styled.div`
-  position: fixed;
-  top: 500%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   width: 400px;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
   z-index: 999;
@@ -180,12 +183,16 @@ export const Popup = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin: 1rem;
   padding: 2rem;
   border-radius: 16px;
   border: 1px solid #d3e3fc;
   background: white;
+  @media screen and (max-width: 600px) {
+    width: 90%;
+    max-width: 400px;
+  }
 `;
+
 export const PopupHeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -193,16 +200,15 @@ export const PopupHeaderContainer = styled.div`
   width: 100%;
   margin-bottom: 2rem;
 `;
+
 export const PopupHeader = styled.h2`
   font-size: 24px;
   font-weight: bold;
 `;
+
 export const PopupCloseButton = styled(Button)`
   margin-top: auto;
 `;
-
-
-
 
 export const PopupBody = styled.div`
   display: flex;
@@ -211,6 +217,7 @@ export const PopupBody = styled.div`
   flex-direction: column;
   width: 100%;
 `;
+
 export const UserPicture = styled.img`
   width: 100px;
   height: 100px;
@@ -218,6 +225,7 @@ export const UserPicture = styled.img`
   object-fit: cover;
   margin-bottom: 1rem;
 `;
+
 export const UserEmail = styled.p`
   font-size: 16px;
   color: #666;
@@ -229,6 +237,7 @@ export const UserContractIdContainer = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
 export const UserContractId = styled.p`
   font-size: 16px;
   color: #666;
@@ -236,20 +245,16 @@ export const UserContractId = styled.p`
   text-align: center;
   width: 70%;
 `;
+
 export const UserContractIdCopy = styled.img`
   height: 15px;
   margin-left: 10px;
   cursor: pointer;
-`
-
-
+`;
 
 export const ViewTransactionsButton = styled(Button)`
   margin-top: 2rem;
 `;
-
-
-
 
 export const copiedPopup = styled.div`
   background-color: #2DD264;
@@ -277,5 +282,3 @@ export const copiedPopup = styled.div`
     }
   }
 `;
-
-
