@@ -166,49 +166,52 @@ const Nav = () => {
 
     {isPopupOpen && (
       <>
-        <Styled.BlurredBody className='popup-background' />
+        <Styled.BlurredBody className='popup-background'>
 
-        <Styled.Popup>
-          <Styled.PopupHeaderContainer>
-            <Styled.PopupHeader>{userName}</Styled.PopupHeader>
-            <Styled.PopupCloseButton onClick={() => setIsPopupOpen(false)}>
-              Close
-            </Styled.PopupCloseButton>
-          </Styled.PopupHeaderContainer>
+          <Styled.Popup>
+            <Styled.PopupHeaderContainer>
+              <Styled.PopupHeader>{userName}</Styled.PopupHeader>
+              <Styled.PopupCloseButton onClick={() => setIsPopupOpen(false)}>
+                Close
+              </Styled.PopupCloseButton>
+            </Styled.PopupHeaderContainer>
 
-          <Styled.PopupBody>
-            <Styled.UserPicture
-              src={userPicture}
-              alt='User picture'
-              referrerPolicy='no-referrer'
-            />
-            <Styled.UserEmail>{userEmail}</Styled.UserEmail>
-
-            <Styled.UserContractIdContainer>
-              <Styled.UserContractId className='user-contract-id'>
-                <b style={{ color: 'black' }}>Wallet Address: </b>{userContractId}
-              </Styled.UserContractId>
-              <Styled.UserContractIdCopy
-                src='./copy.svg'
-                alt='Copy contract ID'
-                onClick={handleCopy}
+            <Styled.PopupBody>
+              <Styled.UserPicture
+                src={userPicture}
+                alt='User picture'
                 referrerPolicy='no-referrer'
-                style={{
-                  filter: copyClicked
-                    ? 'grayscale(100%) brightness(0%)'
-                    : 'none',
-                }}
               />
-            </Styled.UserContractIdContainer>
+              <Styled.UserEmail>{userEmail}</Styled.UserEmail>
 
-            <Styled.ViewTransactionsButton
-              href={`https://sonar.warp.cc/#/app/contract/${userContractId}`}
-              target='_blank'
-            >
-              View Recent Transactions
-            </Styled.ViewTransactionsButton>
-          </Styled.PopupBody>
-        </Styled.Popup>
+              <Styled.UserContractIdContainer>
+                <Styled.UserContractId className='user-contract-id'>
+                  <b style={{ color: 'black' }}>Wallet Address: </b>{userContractId}
+                </Styled.UserContractId>
+                <Styled.UserContractIdCopy
+                  src='./copy.svg'
+                  alt='Copy contract ID'
+                  onClick={handleCopy}
+                  referrerPolicy='no-referrer'
+                  style={{
+                    filter: copyClicked
+                      ? 'grayscale(100%) brightness(0%)'
+                      : 'none',
+                  }}
+                />
+              </Styled.UserContractIdContainer>
+
+              <Styled.ViewTransactionsButton
+                href={`https://sonar.warp.cc/#/app/contract/${userContractId}`}
+                target='_blank'
+              >
+                View Recent Transactions
+              </Styled.ViewTransactionsButton>
+            </Styled.PopupBody>
+          </Styled.Popup>
+
+        </Styled.BlurredBody>
+        
       </>
     )}
   </Styled.Menu>

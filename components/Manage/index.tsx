@@ -30,6 +30,7 @@ const SDKDemo = () => {
   
   
   const calculateTodaysData = (transactions) => {
+    console.log(transactions)
     const today = moment().format('YYYY-MM-DD');
     const transactionsByHour = {};
     let todaysUsers = new Set();
@@ -48,6 +49,7 @@ const SDKDemo = () => {
         todaysTxns++;
       }
     });
+    console.log(todaysTxns)
     return { todaysUsers: todaysUsers.size, todaysTxns };
   };
   
@@ -146,6 +148,7 @@ const SDKDemo = () => {
             },
           ],
         };
+        console.log(todaysTransactions)
         setTodaysTransactions(todaysTransactions);
   
         const { totalUsers, totalTxns } = calculateTotals(transactions);
