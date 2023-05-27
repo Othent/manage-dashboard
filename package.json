@@ -8,9 +8,8 @@
   "dependencies": {
     "chart.js": "^4.3.0",
     "framer-motion": "^10.12.4",
-    "moment": "^2.29.4",
     "next": "latest",
-    "othent": "^1.0.611",
+    "othent": "^1.0.616",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",

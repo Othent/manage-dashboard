@@ -5,7 +5,6 @@ import * as Styled from './styles';
 import { Pie } from 'react-chartjs-2';
 import { Chart, CategoryScale, LinearScale, LineElement, PointElement, ArcElement, BarController, PolarAreaController, ScatterController, DoughnutController } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import moment from 'moment';
 Chart.register(CategoryScale, LinearScale, LineElement, PointElement, ArcElement, BarController, PolarAreaController, ScatterController, DoughnutController);
 
 const SDKDemo = () => {
@@ -18,56 +17,124 @@ const SDKDemo = () => {
     initializeOthent();
   }, []);
 
-  const calculateTotals = (transactions) => {
-    let uniqueUserIDs = new Set();
-    transactions.forEach((transaction) => {
-      uniqueUserIDs.add(transaction.userID);
-    });
-    const totalUsers = uniqueUserIDs.size;
-    const totalTxns = transactions.length;
-    return { totalUsers, totalTxns };
-  };
+
   
   
-  const calculateTodaysData = (transactions) => {
-    console.log(transactions)
-    const today = moment().format('YYYY-MM-DD');
-    const transactionsByHour = {};
+  const calculateData = (transactions) => {
+
+    // total data
+    let totalUsers = new Set();
+    const totalTxns = transactions.length
+
+    // todays data
+    const today = new Date();
+    let todaysTxns = []
     let todaysUsers = new Set();
-    let todaysTxns = 0;
+    let todaysTxnNumber = 0
+
     transactions.forEach((transaction) => {
-      const transactionDate = moment.unix(transaction.date);
-      const transactionHour = transactionDate.format('HH:mm');
-      const transactionDay = transactionDate.format('YYYY-MM-DD');
-      if (transactionDay === today) {
-        if (transactionsByHour[transactionHour]) {
-          transactionsByHour[transactionHour]++;
-        } else {
-          transactionsByHour[transactionHour] = 1;
-        }
-        todaysUsers.add(transaction.userID);
-        todaysTxns++;
+      const transactionDate = new Date(transaction.date);
+      // today
+      if (
+        today.getDate() === transactionDate.getDate() &&
+        today.getMonth() === transactionDate.getMonth() &&
+        today.getFullYear() === transactionDate.getFullYear()
+      ) {
+        todaysTxns.push(transaction);
+        todaysUsers.add(transaction.userID)
+        todaysTxnNumber++
+      } 
+      // total
+      else {
+        totalUsers.add(transaction.userID);
       }
+
+
     });
-    console.log(todaysTxns)
-    return { todaysUsers: todaysUsers.size, todaysTxns };
+    return { 
+      totalTxns, totalUsers: totalUsers.size,
+      todaysUsers: todaysUsers.size, todaysTxns, todaysTxnNumber
+    };
+
   };
+
+
+
+
+
+
+  // pie chart data
+  function pieChartData(transactions) {
+    const walletCounts = {};
+    const functionCounts = {};
+    const typeCounts = {};
+    let successCounts = 0;
+    let failedCounts = 0;
+
+    for (const transaction of transactions) {
+
+      const walletAddress = transaction.contractID;
+      if (walletCounts[walletAddress]) {
+        walletCounts[walletAddress]++;
+      } else {
+        walletCounts[walletAddress] = 1;
+      }
+
+      const functionName = transaction.txnFunction;
+      if (functionCounts[functionName]) {
+        functionCounts[functionName]++;
+      } else {
+        functionCounts[functionName] = 1;
+      }
+
+      const transactionType = transaction.txnType;
+      if (typeCounts[transactionType]) {
+        typeCounts[transactionType]++;
+      } else {
+        typeCounts[transactionType] = 1;
+      }
+
+      const transactionSuccess = transaction.success;
+      if (transactionSuccess === true) {
+        successCounts++
+      } else {
+        failedCounts++
+      }
+    }
+
+    return { walletCounts, functionCounts, typeCounts, successCounts: { successCounts, failedCounts } };
+  }
+  
   
 
+
+
+  // universal
   const [API_ID, setAPI_ID] = useState(null);
   const [transactions, setTransactions] = useState(null);
   const [userDetails, setUserDetails] = useState(null);
-  const [totalUsers, setTotalUsers] = useState(null);
-  const [totalTxns, setTotalTxns] = useState(null);
-  const [todaysUsers, setTodaysUsers] = useState(null);
-  const [todaysTxns, setTodaysTxns] = useState(null);
+  
+  // pie chart data
   const [pieChartDataWallets, setPieChartDataWallets] = useState(null);
   const [pieChartDataFunctions, setPieChartDataFunctions] = useState(null);
   const [pieChartDataTypes, setPieChartDataTypes] = useState(null);
-  const [pieChartDataFunctionsToday, setPieChartDataFunctionsToday] = useState(null);
+  const [pieChartDataSuccess, setPieChartDataSuccess] = useState(null);
+
+  // line chart data
   const [lineChartDataTotal, setLineChartDataTotal] = useState(null);
   const [lineChartDataToday, setLineChartDataToday] = useState(null);
-  const [todaysTransactions, setTodaysTransactions] = useState(null);
+
+  // total users data
+  const [totalUsers, setTotalUsers] = useState(null);
+  const [totalTxns, setTotalTxns] = useState(null);
+
+  // todays users data
+  const [todaysUsers, setTodaysUsers] = useState(null);
+  const [todaysTxnNumber, setTodaysTxnNumber] = useState(null);
+
+
+
+
 
   const getTransactions = async () => {
     setTransactions(null); 
@@ -79,35 +146,53 @@ const SDKDemo = () => {
       .then((response) => {
         const transactions = response.data.document.transactions;
         setTransactions(transactions);
+
+
+        // data
+        const { totalUsers, totalTxns, todaysUsers, todaysTxns, todaysTxnNumber } = calculateData(transactions);
+        // total
+        setTotalUsers(totalUsers);
+        setTotalTxns(totalTxns);
+        // todays
+        setTodaysUsers(todaysUsers);
+        setTodaysTxnNumber(todaysTxnNumber)
   
-        const walletCounts = countWalletAddresses(transactions);
-        const functionCounts = countFunctions(transactions);
-        const typeCounts = countTransactionTypes(transactions);
-        const functionCountsToday = countTransactionFunctionsToday(transactions);
+
+
+        // pie chart data
+        const  { walletCounts, functionCounts, typeCounts, successCounts } = pieChartData(transactions);
+
         const pieChartDataWallets = formatDataForPieChart(walletCounts);
-        const pieChartDataFunctions = formatDataForPieChart(functionCounts);
-        const pieChartDataTypes = formatDataForPieChart(typeCounts);
-        const pieChartDataFunctionsToday = formatDataForPieChart(functionCountsToday);
         setPieChartDataWallets(pieChartDataWallets);
+
+        const pieChartDataFunctions = formatDataForPieChart(functionCounts);
         setPieChartDataFunctions(pieChartDataFunctions);
+
+        const pieChartDataTypes = formatDataForPieChart(typeCounts);
         setPieChartDataTypes(pieChartDataTypes);
-        setPieChartDataFunctionsToday(pieChartDataFunctionsToday);
+
+        const pieChartDataSuccess = formatDataForPieChart(successCounts);
+        setPieChartDataSuccess(pieChartDataSuccess);
+
+
   
+
+
+        // total line chart data, txn number per day
         const transactionsByDate = {};
         transactions.forEach((transaction) => {
-          const date = moment.unix(transaction.date).format('YYYY-MM-DD');
+          const date = new Date(transaction.date).toLocaleString(undefined, { day: '2-digit', month: '2-digit', year: 'numeric' })
           if (transactionsByDate[date]) {
             transactionsByDate[date]++;
           } else {
             transactionsByDate[date] = 1;
           }
         });
-  
         const lineChartDataTotal = {
           labels: Object.keys(transactionsByDate),
           datasets: [
             {
-              label: 'Number of transactions',
+              label: 'Number of transactions total',
               data: Object.values(transactionsByDate),
               fill: false,
               borderColor: '#2375EF',
@@ -116,16 +201,24 @@ const SDKDemo = () => {
           ],
         };
         setLineChartDataTotal(lineChartDataTotal);
-  
-        const today = moment().format('YYYY-MM-DD');
-        const transactionsToday = transactionsByDate[today] || 0;
-  
+
+
+        // todays line chart data, txn time per day
+        let todaysTransactionsByTime = {};
+        todaysTxns.forEach((transaction) => {
+          const time = new Date(transaction.date).toLocaleTimeString(undefined, { hour: 'numeric', hour12: true });
+          if (todaysTransactionsByTime[time]) {
+            todaysTransactionsByTime[time]++;
+          } else {
+            todaysTransactionsByTime[time] = 1;
+          }
+        });
         const lineChartDataToday = {
-          labels: ['Today'],
+          labels: Object.keys(todaysTransactionsByTime),
           datasets: [
             {
-              label: 'Number of transactions',
-              data: [transactionsToday],
+              label: 'Number of transactions today',
+              data: Object.values(todaysTransactionsByTime),
               fill: false,
               borderColor: '#2375EF',
               tension: 0.1,
@@ -134,29 +227,14 @@ const SDKDemo = () => {
         };
         setLineChartDataToday(lineChartDataToday);
   
-        const transactionsByHour = calculateTodaysData(transactions);
+
+
+
+
   
-        const todaysTransactions = {
-          labels: Object.keys(transactionsByHour),
-          datasets: [
-            {
-              label: 'Number of transactions',
-              data: Object.values(transactionsByHour),
-              fill: false,
-              borderColor: '#2375EF',
-              tension: 0.1,
-            },
-          ],
-        };
-        console.log(todaysTransactions)
-        setTodaysTransactions(todaysTransactions);
-  
-        const { totalUsers, totalTxns } = calculateTotals(transactions);
-        const { todaysUsers, todaysTxns } = calculateTodaysData(transactions);
-        setTotalUsers(totalUsers);
-        setTotalTxns(totalTxns);
-        setTodaysUsers(todaysUsers);
-        setTodaysTxns(todaysTxns);
+      
+
+
       })
       .catch((error) => {
         console.error(error.response);
@@ -164,61 +242,9 @@ const SDKDemo = () => {
   };
   
 
-  function countWalletAddresses(transactions) {
-    const walletCounts = {};
-    for (const transaction of transactions) {
-      const walletAddress = transaction.contractID;
-      if (walletCounts[walletAddress]) {
-        walletCounts[walletAddress]++;
-      } else {
-        walletCounts[walletAddress] = 1;
-      }
-    }
-    return walletCounts;
-  }
+  
 
-  function countFunctions(transactions) {
-    const functionCounts = {};
-    for (const transaction of transactions) {
-      const functionName = transaction.txnFunction;
-      if (functionCounts[functionName]) {
-        functionCounts[functionName]++;
-      } else {
-        functionCounts[functionName] = 1;
-      }
-    }
-    return functionCounts;
-  }
 
-  function countTransactionTypes(transactions) {
-    const typeCounts = {};
-    for (const transaction of transactions) {
-      const transactionType = transaction.txnType;
-      if (typeCounts[transactionType]) {
-        typeCounts[transactionType]++;
-      } else {
-        typeCounts[transactionType] = 1;
-      }
-    }
-    return typeCounts;
-  }
-
-  function countTransactionFunctionsToday(transactions) {
-    const today = moment().startOf('day');
-    const functionCountsToday = {};
-    for (const transaction of transactions) {
-      const transactionDate = moment.unix(transaction.date);
-      if (transactionDate >= today) {
-        const functionName = transaction.txnFunction;
-        if (functionCountsToday[functionName]) {
-          functionCountsToday[functionName]++;
-        } else {
-          functionCountsToday[functionName] = 1;
-        }
-      }
-    }
-    return functionCountsToday;
-  }
 
   function formatDataForPieChart(data) {
     const colors = ['#2375EF', '#4F91F2'];
@@ -264,7 +290,7 @@ const SDKDemo = () => {
           </Styled.IntroSection>
         )}
 
-        {transactions && userDetails && pieChartDataWallets && pieChartDataFunctions && pieChartDataTypes && pieChartDataFunctionsToday && lineChartDataTotal && lineChartDataToday && todaysTransactions && (
+        {transactions && userDetails && pieChartDataWallets && pieChartDataFunctions && pieChartDataTypes && pieChartDataSuccess && lineChartDataTotal && lineChartDataToday && (
           <>
             <Styled.UserHeader>
               <img src={userDetails.picture} referrerPolicy="no-referrer" alt="user profile" />
@@ -305,43 +331,55 @@ const SDKDemo = () => {
               </Styled.BigDataContainer1>
 
               <Styled.BigDataContainer1>
-                <b>{todaysTxns}</b>
+                <b>{todaysTxnNumber}</b>
                 <p>Todays Txns</p>
               </Styled.BigDataContainer1>
 
               <Styled.PieChartCardContainer>
                 <Styled.PieChartCard>
                   <Styled.PieChartTitle>Most active wallet addresses</Styled.PieChartTitle>
-                  <Styled.PieChart>
-                    <Pie data={pieChartDataWallets} options={{ responsive: true, maintainAspectRatio: false }} />
-                  </Styled.PieChart>
+                  {pieChartDataWallets.labels.length > 0 ? (
+                    <Styled.PieChart>
+                      <Pie data={pieChartDataWallets} options={{ responsive: true, maintainAspectRatio: false }} />
+                    </Styled.PieChart>
+                  ) : (
+                    <div>No data available for the pie chart.</div>
+                  )}
                 </Styled.PieChartCard>
               </Styled.PieChartCardContainer>
 
               <Styled.PieChartCardContainer>
                 <Styled.PieChartCard>
                   <Styled.PieChartTitle>Most popular functions</Styled.PieChartTitle>
-                  <Styled.PieChart>
-                    <Pie data={pieChartDataFunctions} options={{ responsive: true, maintainAspectRatio: false }} />
-                  </Styled.PieChart>
+                  {pieChartDataFunctions.labels.length > 0 ? (
+                    <Styled.PieChart>
+                      <Pie data={pieChartDataFunctions} options={{ responsive: true, maintainAspectRatio: false }} />
+                    </Styled.PieChart>
+                  ) : (
+                    <div>No data available for the pie chart.</div>
+                  )}
                 </Styled.PieChartCard>
               </Styled.PieChartCardContainer>
 
               <Styled.PieChartCardContainer>
                 <Styled.PieChartCard>
                   <Styled.PieChartTitle>Most popular transaction type</Styled.PieChartTitle>
-                  <Styled.PieChart>
-                    <Pie data={pieChartDataTypes} options={{ responsive: true, maintainAspectRatio: false }} />
-                  </Styled.PieChart>
+                  {pieChartDataTypes.labels.length > 0 ? (
+                    <Styled.PieChart>
+                      <Pie data={pieChartDataTypes} options={{ responsive: true, maintainAspectRatio: false }} />
+                    </Styled.PieChart>
+                  ) : (
+                    <div>No data available for the pie chart.</div>
+                  )}
                 </Styled.PieChartCard>
               </Styled.PieChartCardContainer>
 
               <Styled.PieChartCardContainer>
                 <Styled.PieChartCard>
-                  <Styled.PieChartTitle>Most popular transaction function today</Styled.PieChartTitle>
-                  {pieChartDataFunctionsToday.labels.length > 0 ? (
+                  <Styled.PieChartTitle>Total transaction success</Styled.PieChartTitle>
+                  {pieChartDataSuccess.labels.length > 0 ? (
                     <Styled.PieChart>
-                      <Pie data={pieChartDataFunctionsToday} options={{ responsive: true, maintainAspectRatio: false }} />
+                      <Pie data={pieChartDataSuccess} options={{ responsive: true, maintainAspectRatio: false }} />
                     </Styled.PieChart>
                   ) : (
                     <div>No data available for the pie chart.</div>
@@ -357,7 +395,7 @@ const SDKDemo = () => {
               </Styled.LineGraph>
               <Styled.LineGraph>
                 <Styled.ChartHeader>Today's transactions</Styled.ChartHeader>
-                <Line data={todaysTransactions} />
+                <Line data={lineChartDataToday} />
               </Styled.LineGraph>
             </Styled.LineGraphContainer>
 
@@ -378,43 +416,42 @@ const SDKDemo = () => {
                 <tbody>
                   {transactions.map((transaction, index) => {
                     const reversedIndex = transactions.length - index;
+                    const reversedTransaction = transactions[transactions.length - 1 - index];
                     return (
-                      <tr key={index} className="entry">
+                      <tr key={reversedIndex} className="entry">
                         <td>{reversedIndex}</td>
                         <td>
-                          <a className="blue-link" href={'https://sonar.warp.cc/#/app/contract/' + transaction.walletAddress} target="_blank" rel="noopener noreferrer">
-                            {shortenString(transaction.walletAddress)}
+                          <a className="blue-link" href={'https://sonar.warp.cc/#/app/contract/' + reversedTransaction.walletAddress} target="_blank" rel="noopener noreferrer">
+                            {shortenString(reversedTransaction.walletAddress)}
                           </a>
                         </td>
-                        <td>{transaction.userID}</td>
+                        <td>{reversedTransaction.userID}</td>
                         <td>
                           <a className="blue-link" href={(() => {
-                            switch (transaction.type) {
+                            switch (reversedTransaction.type) {
                               case 'arweave-upload':
-                                return `https://viewblock.io/arweave/tx/${transaction.ID}`;
+                                return `https://viewblock.io/arweave/tx/${reversedTransaction.ID}`;
                               case 'warp-transaction':
-                                return `https://sonar.warp.cc/#/app/interaction/${transaction.ID}`;
                               case 'backup-account':
-                                return `https://sonar.warp.cc/#/app/interaction/${transaction.ID}`;
+                                return `https://sonar.warp.cc/#/app/interaction/${reversedTransaction.ID}`;
                               default:
                                 return '';
                             }
                           })()} target="_blank" rel="noopener noreferrer">
-                            {shortenString(transaction.ID)}
+                            {shortenString(reversedTransaction.ID)}
                           </a>
                         </td>
-                        <td>{transaction.txnFunction}</td>
-                        <td>{transaction.type}</td>
+                        <td>{reversedTransaction.txnFunction}</td>
+                        <td>{reversedTransaction.type}</td>
                         <td>
-                          {transaction.success ? (
+                          {reversedTransaction.success ? (
                             <span className="success-icon">&#10004;</span>
                           ) : (
                             <span className="error-icon">&#10006;</span>
                           )}
                         </td>
                         <td>
-                          {moment.unix(transaction.date).format('YYYY-MM-DD')}{' '}
-                          {moment.unix(transaction.date).format('HH:mm')}
+                          {new Date(reversedTransaction.date).toLocaleString(undefined, { timeZoneName: 'short' })}
                         </td>
                       </tr>
                     );
