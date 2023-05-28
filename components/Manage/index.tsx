@@ -23,17 +23,19 @@ const SDKDemo = () => {
   const calculateData = (transactions) => {
 
     // total data
-    let totalUsers = new Set();
-    const totalTxns = transactions.length
-
+    let totalUsers = new Set(); 
+    const totalTxns = transactions.length;
+  
     // todays data
     const today = new Date();
-    let todaysTxns = []
-    let todaysUsers = new Set();
-    let todaysTxnNumber = 0
-
+    let todaysTxns = [];
+    let todaysUsers = new Set(); 
+    let todaysTxnNumber = 0;
+  
     transactions.forEach((transaction) => {
       const transactionDate = new Date(transaction.date);
+      // total
+      totalUsers.add(transaction.userID);
       // today
       if (
         today.getDate() === transactionDate.getDate() &&
@@ -41,23 +43,20 @@ const SDKDemo = () => {
         today.getFullYear() === transactionDate.getFullYear()
       ) {
         todaysTxns.push(transaction);
-        todaysUsers.add(transaction.userID)
-        todaysTxnNumber++
+        todaysUsers.add(transaction.userID);
+        todaysTxnNumber++;
       } 
-      // total
-      else {
-        totalUsers.add(transaction.userID);
-      }
-
-
     });
+  
     return { 
-      totalTxns, totalUsers: totalUsers.size,
-      todaysUsers: todaysUsers.size, todaysTxns, todaysTxnNumber
+      totalTxns,
+      totalUsers: totalUsers.size, 
+      todaysUsers: todaysUsers.size,
+      todaysTxns,
+      todaysTxnNumber
     };
-
   };
-
+  
 
 
 
