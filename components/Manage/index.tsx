@@ -246,14 +246,6 @@ const SDKDemo = () => {
           }
         };
         setLineChartDataToday(lineChartDataToday);
-  
-
-        console.log(lineChartDataToday.datasets[0].data)
-
-
-
-
-  
       
 
 
