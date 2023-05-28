@@ -187,7 +187,6 @@ const SDKDemo = () => {
         const pieChartDataSuccess = formatDataForPieChart(successCounts);
         setPieChartDataSuccess(pieChartDataSuccess);
 
-
   
 
 
@@ -214,6 +213,8 @@ const SDKDemo = () => {
           ],
         };
         setLineChartDataTotal(lineChartDataTotal);
+
+        
 
 
         // todays line chart data, txn time per day
@@ -246,6 +247,8 @@ const SDKDemo = () => {
         };
         setLineChartDataToday(lineChartDataToday);
   
+
+        console.log(lineChartDataToday.datasets[0].data)
 
 
 
@@ -396,7 +399,7 @@ const SDKDemo = () => {
               <Styled.PieChartCardContainer>
                 <Styled.PieChartCard>
                   <Styled.PieChartTitle>Total transaction success</Styled.PieChartTitle>
-                  {pieChartDataSuccess.labels.length > 0 ? (
+                  {pieChartDataSuccess.datasets[0].data[0] !== 0 && pieChartDataSuccess.datasets[0].data[1] !== 0 ? (
                     <Styled.PieChart>
                       <Pie data={pieChartDataSuccess} options={{ responsive: true, maintainAspectRatio: false }} />
                     </Styled.PieChart>
@@ -410,17 +413,25 @@ const SDKDemo = () => {
             <Styled.LineGraphContainer>
               <Styled.LineGraph>
                 <Styled.ChartHeader>Total transactions</Styled.ChartHeader>
-                <Line 
-                  data={lineChartDataTotal} 
-                  options={{ scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }} 
-                />
+                {lineChartDataTotal.datasets[0].data.length !== 0 ? (
+                  <Line 
+                    data={lineChartDataTotal} 
+                    options={{ scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }} 
+                  />
+                ) : (
+                  <div style={{ textAlign: 'center' }}>No data available for the line graph.</div>
+                )}
               </Styled.LineGraph>
               <Styled.LineGraph>
                 <Styled.ChartHeader>Today's transactions</Styled.ChartHeader>
-                <Line 
-                  data={lineChartDataToday} 
-                  options={{ scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }} 
-                />
+                {lineChartDataToday.datasets[0].data.length !== 0 ? (
+                  <Line 
+                    data={lineChartDataToday} 
+                    options={{ scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }} 
+                  />
+                ) : (
+                  <div style={{ textAlign: 'center' }}>No data available for the line graph.</div>
+                )}
               </Styled.LineGraph>
             </Styled.LineGraphContainer>
 
