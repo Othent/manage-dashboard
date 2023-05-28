@@ -169,7 +169,7 @@ const SDKDemo = () => {
 
         
         const pieChartDataWallets = {
-          labels: Object.values(walletCounts).map(item => item.walletAddress),
+          labels: Object.values(walletCounts).map(item => shortenString(item.walletAddress)),
           datasets: [{
             data: Object.values(walletCounts).map(item => item.count),
             backgroundColor: Object.keys(walletCounts).map((item, index) => colors[index % colors.length]),
