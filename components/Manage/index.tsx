@@ -3,9 +3,9 @@ import { Othent } from 'othent';
 import axios from 'axios';
 import * as Styled from './styles';
 import { Pie } from 'react-chartjs-2';
-import { Chart, CategoryScale, LinearScale, LineElement, PointElement, ArcElement, BarController, PolarAreaController, ScatterController, DoughnutController } from 'chart.js';
+import { Chart, CategoryScale, LinearScale, LineElement, PointElement, ArcElement, BarController, PolarAreaController, ScatterController, DoughnutController, Tooltip  } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-Chart.register(CategoryScale, LinearScale, LineElement, PointElement, ArcElement, BarController, PolarAreaController, ScatterController, DoughnutController);
+Chart.register(CategoryScale, LinearScale, LineElement, PointElement, ArcElement, BarController, PolarAreaController, ScatterController, DoughnutController, Tooltip );
 
 const SDKDemo = () => {
   const [othent, setOthent] = useState(null);
@@ -65,7 +65,7 @@ const SDKDemo = () => {
 
   // pie chart data
   function pieChartData(transactions) {
-    const walletCounts = {};
+    const walletCounts = [];
     const functionCounts = {};
     const typeCounts = {};
     let successCounts = 0;
@@ -73,11 +73,14 @@ const SDKDemo = () => {
 
     for (const transaction of transactions) {
 
-      const walletAddress = transaction.contractID;
-      if (walletCounts[walletAddress]) {
-        walletCounts[walletAddress]++;
+      if (walletCounts.some(item => item.walletAddress === transaction.walletAddress)) {
+        const existingWallet = walletCounts.find(item => item.walletAddress === transaction.walletAddress);
+        existingWallet.count += 1;
       } else {
-        walletCounts[walletAddress] = 1;
+        walletCounts.push({
+          walletAddress: transaction.walletAddress,
+          count: 1
+        });
       }
 
       const functionName = transaction.txnFunction;
@@ -87,7 +90,7 @@ const SDKDemo = () => {
         functionCounts[functionName] = 1;
       }
 
-      const transactionType = transaction.txnType;
+      const transactionType = transaction.type;
       if (typeCounts[transactionType]) {
         typeCounts[transactionType]++;
       } else {
@@ -162,8 +165,18 @@ const SDKDemo = () => {
         // pie chart data
         const  { walletCounts, functionCounts, typeCounts, successCounts } = pieChartData(transactions);
 
-        const pieChartDataWallets = formatDataForPieChart(walletCounts);
+        const colors = ['#2375EF', '#4F91F2'];
+
+        
+        const pieChartDataWallets = {
+          labels: Object.values(walletCounts).map(item => item.walletAddress),
+          datasets: [{
+            data: Object.values(walletCounts).map(item => item.count),
+            backgroundColor: Object.keys(walletCounts).map((item, index) => colors[index % colors.length]),
+          }],
+        };
         setPieChartDataWallets(pieChartDataWallets);
+
 
         const pieChartDataFunctions = formatDataForPieChart(functionCounts);
         setPieChartDataFunctions(pieChartDataFunctions);
@@ -192,7 +205,7 @@ const SDKDemo = () => {
           labels: Object.keys(transactionsByDate),
           datasets: [
             {
-              label: 'Number of transactions total',
+              label: 'Number of transactions per day',
               data: Object.values(transactionsByDate),
               fill: false,
               borderColor: '#2375EF',
@@ -217,13 +230,19 @@ const SDKDemo = () => {
           labels: Object.keys(todaysTransactionsByTime),
           datasets: [
             {
-              label: 'Number of transactions today',
+              label: 'Number of transactions per hour',
               data: Object.values(todaysTransactionsByTime),
               fill: false,
               borderColor: '#2375EF',
               tension: 0.1,
             },
           ],
+          scales: {
+            y: {
+              beginAtZero: true,
+              stepSize: 1
+            },
+          }
         };
         setLineChartDataToday(lineChartDataToday);
   
@@ -391,11 +410,17 @@ const SDKDemo = () => {
             <Styled.LineGraphContainer>
               <Styled.LineGraph>
                 <Styled.ChartHeader>Total transactions</Styled.ChartHeader>
-                <Line data={lineChartDataTotal} />
+                <Line 
+                  data={lineChartDataTotal} 
+                  options={{ scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }} 
+                />
               </Styled.LineGraph>
               <Styled.LineGraph>
                 <Styled.ChartHeader>Today's transactions</Styled.ChartHeader>
-                <Line data={lineChartDataToday} />
+                <Line 
+                  data={lineChartDataToday} 
+                  options={{ scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }} 
+                />
               </Styled.LineGraph>
             </Styled.LineGraphContainer>
 
