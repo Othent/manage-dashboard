@@ -391,7 +391,7 @@ const SDKDemo = () => {
               <Styled.PieChartCardContainer>
                 <Styled.PieChartCard>
                   <Styled.PieChartTitle>Total transaction success</Styled.PieChartTitle>
-                  {pieChartDataSuccess.datasets[0].data[0] !== 0 && pieChartDataSuccess.datasets[0].data[1] !== 0 ? (
+                  {pieChartDataSuccess.datasets[0].data[0] !== 0 || pieChartDataSuccess.datasets[0].data[1] !== 0 ? (
                     <Styled.PieChart>
                       <Pie data={pieChartDataSuccess} options={{ responsive: true, maintainAspectRatio: false }} />
                     </Styled.PieChart>
