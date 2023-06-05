@@ -78,6 +78,7 @@ const Nav = () => {
 
   async function logOut() {
     await othentInstance.logOut();
+    localStorage.removeItem('othentUserDetails');
     setIsLoggedIn(false);
     setUserPicture('');
   }
