@@ -4,7 +4,22 @@ import Button from '../Button';
 import { Othent } from 'othent';
 import { useState, useEffect, useRef } from 'react';
 
+
 const Nav = () => {
+
+
+  useEffect(() => {
+    const user_details = JSON.parse(localStorage.getItem('othentUserDetails'))
+    if (user_details) {
+      setUserPicture(user_details.picture);
+      setUserName(user_details.name)
+      setUserEmail(user_details.email)
+      setUserContractId(user_details.contract_id)
+      setIsLoggedIn(true);
+    }
+
+  }, []);
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [othentInstance, setOthentInstance] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -50,8 +65,10 @@ const Nav = () => {
   const [userEmail, setUserEmail] = useState('');
   const [userContractId, setUserContractId] = useState('');
 
+
   async function logIn() {
     const user_details = await othentInstance.logIn();
+    localStorage.setItem('othentUserDetails', JSON.stringify(user_details));
     setUserPicture(user_details.picture);
     setUserName(user_details.name)
     setUserEmail(user_details.email)
@@ -107,6 +124,7 @@ const Nav = () => {
     }, 100);
   };
 
+
   return (
   <Styled.NavBar>
     {copiedPopup && (
@@ -114,14 +132,14 @@ const Nav = () => {
           Text copied!
         </Styled.copiedPopup>
       )}
-  <Styled.NavLogo>
-        <a href='/' className='site-a-warp'>
-          <div className='toggle'>
-            <div></div>
-          </div>
-          <p className={DMSans700.className}>Manage Othent</p>
-        </a>
-      </Styled.NavLogo>
+    <Styled.NavLogo>
+      <a href='/' className='site-a-warp'>
+        <div className='toggle'>
+          <div></div>
+        </div>
+        <p className={DMSans700.className}>Othent</p>
+      </a>
+    </Styled.NavLogo>
   <Styled.Menu>
     <a
       href='https://docs.othent.io/developers/sdk'
@@ -166,6 +184,7 @@ const Nav = () => {
 
     {isPopupOpen && (
       <>
+      
         <Styled.BlurredBody className='popup-background'>
 
           <Styled.Popup>
@@ -211,7 +230,7 @@ const Nav = () => {
           </Styled.Popup>
 
         </Styled.BlurredBody>
-        
+
       </>
     )}
   </Styled.Menu>
